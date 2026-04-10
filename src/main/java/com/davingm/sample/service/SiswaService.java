@@ -30,10 +30,17 @@ public class SiswaService {
                 .orElseThrow(() -> new ValidasiException("Data tidak ditemukan"));
     }
 
+ 
+
+    // execption jika nisn sudah ada
     public Siswa saveSiswa(Siswa siswa) {
+        if (siswaRepository.findByNis(siswa.getNis()).isPresent()) {
+            throw new ValidasiException("NIS sudah ada");
+        }
         validateSiswa(siswa);
         return siswaRepository.save(siswa);
     }
+
 
     public Siswa updateSiswa(Long id, Siswa dataBaru) {
         Siswa siswa = siswaRepository.findById(id)

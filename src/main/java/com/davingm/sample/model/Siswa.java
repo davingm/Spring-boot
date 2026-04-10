@@ -16,6 +16,7 @@ public class Siswa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     @NotBlank(message = "NIS tidak boleh kosong")
     private String nis;
 
