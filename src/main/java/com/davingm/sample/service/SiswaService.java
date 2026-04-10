@@ -63,6 +63,20 @@ public class SiswaService {
     }
 
     private void validateSiswa(Siswa siswa) {
+
+        // ^ : Menandakan awal dari string.
+        // $ : Menandakan akhir dari string.
+        // [0-9] : Menandakan bahwa karakter yang diizinkan adalah angka dari 0 sampai 9.
+        // * : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau lebih.
+        // + : Menandakan bahwa karakter sebelumnya boleh muncul 1 kali atau lebih.
+        // ? : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau 1 kali.
+        // | : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau lebih.
+        // ( ) : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau lebih.
+        // [ ] : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau lebih.
+        // { } : Menandakan bahwa karakter sebelumnya boleh muncul 0 kali atau lebih.
+        
+
+
         // NIS hanya boleh angka
         if (siswa.getNis() != null && !siswa.getNis().matches("^[0-9]*$")) {
             throw new ValidasiException("NIS hanya boleh angka");
@@ -73,11 +87,14 @@ public class SiswaService {
             throw new ValidasiException("No Telepon hanya boleh angka");
         }
 
-        // jenisKelamin hanya boleh "pria" atau "Wanita"
-        if (siswa.getJenisKelamin() != null && 
-            !siswa.getJenisKelamin().equalsIgnoreCase("pria") && 
-            !siswa.getJenisKelamin().equalsIgnoreCase("Wanita")) {
-            throw new ValidasiException("Jenis Kelamin hanya boleh berisi 'pria' atau 'Wanita'");
+        // jenisKelamin hanya boleh dua
+        if (siswa.getJenisKelamin() != null && !siswa.getJenisKelamin().matches("^(pria|wanita)$")) {
+            throw new ValidasiException("Jenis Kelamin hanya boleh pria atau wanita");
+        }
+
+        // golongan darah validation
+        if (siswa.getGolonganDarah() != null && !siswa.getGolonganDarah().matches("^(A|B|AB|O)$")) {
+            throw new ValidasiException("Golongan Darah hanya boleh A, B, AB, atau O");
         }
     }
 }

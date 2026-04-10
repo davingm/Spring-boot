@@ -74,10 +74,6 @@ public class SiswaController {
         siswaService.deleteSiswa(id);
         return WebResponse.<String>builder()
                 .status("00")
-                .pesan("Data tidak ditemukan") // Task says if delete not found, show "Data tidak ditemukan". 
-                // Wait, if delete SUCCESS, what message? 
-                // Ah, the task says: - jika data tidak di temukan lempar exception ValidasiException dan tampil pesan "Data tidak ditemukan"
-                // So if it's successful, it should be "Data berhasil dihapus" or similar.
                 .pesan("Data berhasil dihapus")
                 .data(null)
                 .build();

@@ -32,14 +32,15 @@ public class Siswa {
     private String hobi;
     private String warnaKesukaan;
 
+    @Column(length = 15)
     @NotBlank(message = "No Telepon tidak boleh kosong")
-    @Size(max = 15, message = "No Telepon maksimal 15 digit")
     private String noTelepon;
 
+    @Column(length = 50)
     @NotBlank(message = "Tempat Lahir tidak boleh kosong")
     private String tempatLahir;
 
+    @Column(length = 5)
     @NotBlank(message = "Golongan Darah tidak boleh kosong")
-    @Size(max = 5, message = "Golongan Darah maksimal 5 digit")
     private String golonganDarah;
 }
