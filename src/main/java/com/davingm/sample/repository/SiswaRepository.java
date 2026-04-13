@@ -8,5 +8,6 @@ import com.davingm.sample.model.Siswa;
 
 @Repository
 public interface SiswaRepository extends JpaRepository<Siswa, Long> {
+    boolean existsByNis(String nis);
     Optional<Siswa> findByNis(String nis);
 }

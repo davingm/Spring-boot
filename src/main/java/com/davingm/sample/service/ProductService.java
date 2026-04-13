@@ -2,20 +2,39 @@ package com.davingm.sample.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.davingm.sample.model.Product;
 import com.davingm.sample.repository.ProductRepository;
+import com.davingm.sample.request.ProductCreate;
+import com.davingm.sample.repository.CategoryRepository;
+import com.davingm.sample.model.Category;
+import com.davingm.sample.request.ProductUpdate;
+
 
 @Service
 public class ProductService {
     
-    @Autowired
     private ProductRepository productRepository;
+    private CategoryRepository categoryRepository;
 
-    public Product saveProduct(Product product) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    public Product createProduct(ProductCreate request) {
+        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new RuntimeException("Category tidak ditemukan"));    
+        
+        Product product = new Product();
+        product.setNama(request.getNama());
+        product.setDeskripsi(request.getDeskripsi());
+        product.setHarga(request.getHarga());
+        product.setCategory(category);
+    
         return productRepository.save(product);
+
+
     }
 
     // Mengambil semua data product
@@ -29,13 +48,13 @@ public class ProductService {
     }
 
     // Mengubah data Product
-    public Product updateProduct(Long id, Product dataBaru) {
+    public Product updateProduct(Long id, ProductUpdate request) {
         Product product = productRepository.findById(id)
         .orElseThrow( () -> new RuntimeException("Product tidak ditemukan"));
 
-        product.setNama(dataBaru.getNama());
-        product.setDeskripsi(dataBaru.getDeskripsi());
-        product.setHarga(dataBaru.getHarga());
+        product.setNama(request.getNama());
+        product.setDeskripsi(request.getDeskripsi());
+        product.setHarga(request.getHarga());
 
         return productRepository.save(product);
     }
