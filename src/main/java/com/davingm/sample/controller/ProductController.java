@@ -3,13 +3,12 @@ package com.davingm.sample.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.validation.Valid;
 
-
 import com.davingm.sample.model.Product;
+import com.davingm.sample.request.ProductCreate;
+import com.davingm.sample.request.ProductUpdate;
 import com.davingm.sample.response.WebResponse;
 import com.davingm.sample.service.ProductService;
 
@@ -22,11 +21,11 @@ public class ProductController {
 
     // CREATE
     @PostMapping
-    public WebResponse<Product> createProduct(@Valid @RequestBody Product product) {
+    public WebResponse<Product> createProduct(@Valid @RequestBody ProductCreate request) {
         return WebResponse.<Product>builder()
                 .status("00")
                 .pesan("Product berhasil ditambahkan")
-                .data(productService.saveProduct(product))
+                .data(productService.createProduct(request))
                 .build();
     }
 
@@ -54,11 +53,11 @@ public class ProductController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public WebResponse<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product dataBaru) {
+    public WebResponse<Product> updateProduct(@PathVariable Long id, @Valid ProductUpdate request) {
         return WebResponse.<Product>builder()
                 .status("00")
                 .pesan("Product berhasil diupdate")
-                .data(productService.updateProduct(id, dataBaru))
+                .data(productService.updateProduct(id, request))
                 .build();
     }
 
