@@ -23,4 +23,20 @@ public class ProductUpdate {
     @NotNull(message = "Category tidak boleh kosong")
     @JsonProperty("category_id")
     private Long categoryId;
-}
+
+    @JsonProperty("product_detail")
+    private ProductDetailUpdate productDetail;
+
+    @Data
+    public static class ProductDetailUpdate {
+        @NotBlank(message = "Garansi tidak boleh kosong")
+        private String garansi;
+        
+        @NotBlank(message = "Deskripsi lengkap tidak boleh kosong")
+        private String deskripsiLengkap;
+
+    }
+
+    
+}   
+

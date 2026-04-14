@@ -53,7 +53,7 @@ public class ProductController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public WebResponse<Product> updateProduct(@PathVariable Long id, @Valid ProductUpdate request) {
+    public WebResponse<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdate request) {
         return WebResponse.<Product>builder()
                 .status("00")
                 .pesan("Product berhasil diupdate")

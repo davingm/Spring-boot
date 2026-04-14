@@ -14,6 +14,7 @@ import com.davingm.sample.model.Category;
 import com.davingm.sample.request.ProductUpdate;
 
 
+
 @Service
 public class ProductService {
     
@@ -25,6 +26,7 @@ public class ProductService {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productDetailRepository = productDetailRepository;
+
     }
 
     public Product createProduct(ProductCreate request) {
@@ -61,20 +63,40 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    // Mengubah data Product
+    
+    
+
     public Product updateProduct(Long id, ProductUpdate request) {
+        // check product
         Product product = productRepository.findById(id)
         .orElseThrow( () -> new RuntimeException("Product tidak ditemukan"));
 
+        // check category
         Category category = categoryRepository.findById(request.getCategoryId())
         .orElseThrow(() -> new RuntimeException("Category tidak ditemukan"));
 
+        // update product
         product.setNama(request.getNama());
         product.setDeskripsi(request.getDeskripsi());
         product.setHarga(request.getHarga());
         product.setCategory(category);
 
-
+        // Jika detail dari request tidak Null, maka update ProductDetail
+        // get langsung by data productdetail = product.getProductDetail()
+        if (request.getProductDetail() != null) {
+            ProductDetail detail = product.getProductDetail();
+            
+            if (detail == null) {
+                detail = new ProductDetail();
+                detail.setProduct(product);
+            }
+            
+            detail.setGaransi(request.getProductDetail().getGaransi());
+            detail.setDeskripsiLengkap(request.getProductDetail().getDeskripsiLengkap());
+            
+            // Karena cascade = CascadeType.ALL, cukup save dari product saja
+            product.setProductDetail(detail);
+        }
 
         return productRepository.save(product);
     }
