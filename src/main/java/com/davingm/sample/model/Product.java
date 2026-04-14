@@ -1,5 +1,6 @@
 package com.davingm.sample.model;
 
+import java.util.List;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,15 @@ public class Product {
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductDetail productDetail;
+
+
+    @ManyToMany
+    @JoinTable(
+        name = "product_tags",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 }
 
 

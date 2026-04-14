@@ -11,6 +11,8 @@ import com.davingm.sample.request.ProductCreate;
 import com.davingm.sample.request.ProductUpdate;
 import com.davingm.sample.response.WebResponse;
 import com.davingm.sample.service.ProductService;
+import com.davingm.sample.request.AddTagsRequest;
+import com.davingm.sample.request.RemoveTagsRequest;
 
 @RestController
 @RequestMapping("/api/products")
@@ -69,6 +71,25 @@ public class ProductController {
                 .status("00")
                 .pesan("Product dengan ID " + id + " berhasil dihapus")
                 .data(null)
+                .build();
+    }
+
+    @PostMapping("/{id}/tags")
+    public WebResponse<Product> addTagToProduct(@PathVariable Long id, @Valid @RequestBody AddTagsRequest request) {
+        return WebResponse.<Product>builder()
+                .status("00")
+                .pesan("Tag berhasil ditambahkan")
+                .data(productService.addTagToProduct(id, request))
+                .build();
+    }
+
+    // Remove TAGS
+    @DeleteMapping("/{id}/tags")
+    public WebResponse<Product> removeTagFromProduct(@PathVariable Long id, @Valid @RequestBody RemoveTagsRequest request) {
+        return WebResponse.<Product>builder()
+                .status("00")
+                .pesan("Tag berhasil dihapus")
+                .data(productService.removeTagFromProduct(id, request))
                 .build();
     }
 }
