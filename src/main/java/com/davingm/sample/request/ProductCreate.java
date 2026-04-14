@@ -1,5 +1,8 @@
 package com.davingm.sample.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,5 +22,23 @@ public class ProductCreate {
     private double harga;
 
     @NotNull(message = "Category tidak boleh kosong")
+    @JsonProperty("category_id")
     private Long categoryId;
+
+
+
+
+    @Valid
+    @NotNull(message = "Product detail tidak boleh kosong")
+    @JsonProperty("detail")
+    private Detail productDetail;
+
+    @Data
+    public static class Detail {
+        @NotBlank(message = "Garansi tidak boleh kosong")
+        private String garansi;
+        
+        @NotBlank(message = "Deskripsi lengkap tidak boleh kosong")
+        private String deskripsiLengkap;
+    }
 }

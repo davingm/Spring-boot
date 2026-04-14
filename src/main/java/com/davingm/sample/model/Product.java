@@ -27,4 +27,11 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private ProductDetail productDetail;
 }
+
+
+
+
