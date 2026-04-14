@@ -9,6 +9,7 @@ import com.davingm.sample.model.ProductDetail;
 import com.davingm.sample.repository.ProductRepository;
 import com.davingm.sample.request.ProductCreate;
 import com.davingm.sample.repository.CategoryRepository;
+import com.davingm.sample.repository.ProductDetailRepository;
 import com.davingm.sample.model.Category;
 import com.davingm.sample.request.ProductUpdate;
 
@@ -18,10 +19,12 @@ public class ProductService {
     
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
+    private ProductDetailRepository productDetailRepository;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, ProductDetailRepository productDetailRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.productDetailRepository = productDetailRepository;
     }
 
     public Product createProduct(ProductCreate request) {
@@ -32,17 +35,18 @@ public class ProductService {
         product.setDeskripsi(request.getDeskripsi());
         product.setHarga(request.getHarga());
         product.setCategory(category);
-
-        if (request.getProductDetail() != null) {
-            ProductDetail detail = new ProductDetail();
-            detail.setGaransi(request.getProductDetail().getGaransi());
-            detail.setDeskripsiLengkap(request.getProductDetail().getDeskripsiLengkap());
-            detail.setProduct(product);
-            product.setProductDetail(detail);
-        }
-    
         
-        return productRepository.save(product);
+        product = productRepository.save(product);
+
+        ProductDetail detail = new ProductDetail();
+        detail.setGaransi(request.getProductDetail().getGaransi());
+        detail.setDeskripsiLengkap(request.getProductDetail().getDeskripsiLengkap());
+        detail.setProduct(product);
+        detail = productDetailRepository.save(detail);
+        
+        product.setProductDetail(detail);
+
+        return product;
 
 
     }
