@@ -92,4 +92,71 @@ public class ProductController {
                 .data(productService.removeTagFromProduct(id, request))
                 .build();
     }
+
+    @GetMapping("/filter/category-min-price")
+    public WebResponse<List<Product>> getProductsByCategoryAndMinPrice(
+            @RequestParam Long categoryId,
+            @RequestParam Double minPrice) {
+        return WebResponse.<List<Product>>builder()
+                .status("00")
+                .pesan("Berhasil mengambil produk berdasarkan kategori dan harga minimum")
+                .data(productService.getProductsByCategoryAndMinPrice(categoryId, minPrice))
+                .build();
+    }
+
+    @GetMapping("/filter/category/{categoryName}/min-price/{minPrice}")
+    public WebResponse<List<Product>> getProductsByCategoryNameAndMinPrice(
+            @PathVariable String categoryName,
+            @PathVariable Double minPrice) {
+        return WebResponse.<List<Product>>builder()
+                .status("00")
+                .pesan("Berhasil mengambil produk untuk kategori " + categoryName + " dengan harga minimum " + minPrice)
+                .data(productService.getProductsByCategoryNameAndMinPrice(categoryName, minPrice))
+                .build();
+    }
+
+    @GetMapping("/filter/tag-category")
+    public WebResponse<List<Product>> getProductsByTagAndCategory(
+            @RequestParam Long tagId,
+            @RequestParam Long categoryId) {
+        return WebResponse.<List<Product>>builder()
+                .status("00")
+                .pesan("Berhasil mengambil produk berdasarkan tag dan kategori")
+                .data(productService.getProductsByTagAndCategory(tagId, categoryId))
+                .build();
+    }
+
+    @GetMapping("/filter/tag/{tagId}/category/{categoryName}")
+    public WebResponse<List<Product>> getProductsByTagAndCategoryName(
+            @PathVariable Long tagId,
+            @PathVariable String categoryName) {
+        return WebResponse.<List<Product>>builder()
+                .status("00")
+                .pesan("Berhasil mengambil produk dengan tag " + tagId + " dan kategori " + categoryName)
+                .data(productService.getProductsByTagAndCategoryName(tagId, categoryName))
+                .build();
+    }
+
+    @GetMapping("/filter/price-range")
+    public WebResponse<List<Product>> getProductsByPriceRange(
+            @RequestParam Double minPrice,
+            @RequestParam Double maxPrice) {
+        return WebResponse.<List<Product>>builder()  
+                .status("00")
+                .pesan("Berhasil mengambil produk berdasarkan rentang harga")
+                .data(productService.getProductsByPriceRange(minPrice, maxPrice))
+                .build();
+    }
+
+    @GetMapping("/filter/price-range/{minPrice}/{maxPrice}")
+    public WebResponse<List<Product>> getProductsByPriceRangePath(
+            @PathVariable Double minPrice,
+            @PathVariable Double maxPrice) {
+        return WebResponse.<List<Product>>builder()
+                .status("00")
+                .pesan("Berhasil mengambil produk dengan harga antara " + minPrice + " dan " + maxPrice)
+                .data(productService.getProductsByPriceRange(minPrice, maxPrice))
+                .build();
+    }
+    
 }

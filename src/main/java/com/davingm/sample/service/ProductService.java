@@ -148,4 +148,24 @@ public class ProductService {
         
         return productRepository.save(product);
     }
+
+    public List<Product> getProductsByCategoryAndMinPrice(Long categoryId, Double minPrice) {
+        return productRepository.findByCategory_IdAndHargaGreaterThanEqual(categoryId, minPrice);
+    }
+
+    public List<Product> getProductsByCategoryNameAndMinPrice(String categoryName, Double minPrice) {
+        return productRepository.findByCategory_NameIgnoreCaseAndHargaGreaterThanEqual(categoryName, minPrice);
+    }
+
+    public List<Product> getProductsByTagAndCategory(Long tagId, Long categoryId) {
+        return productRepository.findByTagIdAndCategoryId(tagId, categoryId);
+    }
+
+    public List<Product> getProductsByTagAndCategoryName(Long tagId, String categoryName) {
+        return productRepository.findByTagIdAndCategoryName(tagId, categoryName);
+    }
+
+    public List<Product> getProductsByPriceRange(Double minPrice, Double maxPrice) {
+        return productRepository.findByHargaBetween(minPrice, maxPrice);
+    }
 }
