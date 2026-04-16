@@ -166,6 +166,9 @@ public class ProductService {
     }
 
     public List<Product> getProductsByPriceRange(Double minPrice, Double maxPrice) {
+        if(minPrice > maxPrice) {
+            throw new RuntimeException("Harga minimum tidak boleh lebih besar dari harga maksimum");
+        }
         return productRepository.findByHargaBetween(minPrice, maxPrice);
     }
 }
