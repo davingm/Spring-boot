@@ -9,7 +9,7 @@ import com.davingm.sample.model.Product;
 import java.util.List;
 
 
-@Repository // mendefinisikan ini repo
+@Repository // hai hai
 public interface ProductRepository extends JpaRepository<Product, Long> // long di gunakan karena tipe data id adalah long  
 {   
     List<Product> findByCategory_IdAndHargaGreaterThanEqual(Long categoryId, Double harga);

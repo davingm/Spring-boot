@@ -12,6 +12,7 @@ import com.davingm.sample.request.ProductUpdate;
 import com.davingm.sample.response.WebResponse;
 import com.davingm.sample.service.ProductService;
 import com.davingm.sample.request.AddTagsRequest;
+import com.davingm.sample.request.PaymentRequest;
 import com.davingm.sample.request.RemoveTagsRequest;
 
 @RestController
@@ -158,5 +159,19 @@ public class ProductController {
                 .data(productService.getProductsByPriceRange(minPrice, maxPrice))
                 .build();
     }
+
+
+    // Proses Pembelian 
+    @PostMapping("/{productId}/buy/product")
+    public WebResponse<Product> prosesPembelian(@PathVariable Long productId, @Valid @RequestBody PaymentRequest request) {
+        return WebResponse.<Product>builder()
+                .status("00")
+                .pesan("Pembelian berhasil")
+                .data(productService.prosesPembelian(productId, request))
+                .build();
+    }       
+    
+
+
     
 }

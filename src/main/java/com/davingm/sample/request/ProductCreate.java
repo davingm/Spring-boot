@@ -41,4 +41,9 @@ public class ProductCreate {
         @NotBlank(message = "Deskripsi lengkap tidak boleh kosong")
         private String deskripsiLengkap;
     }
+
+    public int getStok() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getStok'");
+    }
 }

@@ -14,9 +14,11 @@ import com.davingm.sample.model.Category;
 import com.davingm.sample.request.ProductUpdate;
 import com.davingm.sample.repository.TagRepository;
 import com.davingm.sample.request.AddTagsRequest;
+import com.davingm.sample.request.PaymentRequest;
 import com.davingm.sample.request.RemoveTagsRequest;
 import com.davingm.sample.model.Tag;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
@@ -35,6 +37,7 @@ public class ProductService {
         this.tagRepository = tagRepository;
     }
 
+    // create product
     public Product createProduct(ProductCreate request) {
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category tidak ditemukan"));
@@ -171,4 +174,26 @@ public class ProductService {
         }
         return productRepository.findByHargaBetween(minPrice, maxPrice);
     }
+
+
+
+    
+    @Transactional
+    public Product prosesPembelian(Long productId, PaymentRequest request) {
+
+      
+        // 1. Kurangi Stoack Produk
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product tidak ditemukan"));
+        product.setStok(product.getStok() - 1);
+        productRepository.save(product);
+
+
+        // Simulasi Error yang tidak terduga
+        // jika kode di bawah ini eror stok produck tidak jadi berkurang di database
+        if(request.getAmount() < product.getHarga()) {
+            throw new RuntimeException("Uang tidak cukup");
+        }
+
+        return product;
+    }   
 }

@@ -32,6 +32,12 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductDetail productDetail;
 
+    // Stok
+    @Column(name = "stok")
+    @Min(value = 0, message = "Stok harus minimal 0")
+    @NotNull(message = "Stok tidak boleh kosong")
+    private int stok;
+
 
     @ManyToMany
     @JoinTable(
